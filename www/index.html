@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html class="dark" dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>مصروفي AI - المساعد المالي والمهام الذكية</title>
+<!-- Alexandria & Cairo typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&amp;family=Cairo:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with custom plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-low": "#171b26",
+            "on-secondary-container": "#00424e",
+            "tertiary-fixed": "#e9ddff",
+            "inverse-primary": "#006c49",
+            "on-tertiary-fixed": "#23005c",
+            "on-primary-fixed": "#002113",
+            "on-tertiary": "#3c0091",
+            "surface-container-lowest": "#0a0e18",
+            "surface": "#0f131d",
+            "primary-container": "#10b981",
+            "surface-dim": "#0f131d",
+            "secondary": "#4cd7f6",
+            "on-surface": "#dfe2f1",
+            "on-secondary-fixed-variant": "#004e5c",
+            "primary-fixed-dim": "#4edea3",
+            "on-surface-variant": "#bbcabf",
+            "on-primary-container": "#00422b",
+            "surface-variant": "#313540",
+            "surface-container-highest": "#313540",
+            "secondary-fixed": "#acedff",
+            "primary": "#4edea3",
+            "inverse-on-surface": "#2c303b",
+            "on-tertiary-fixed-variant": "#5516be",
+            "on-primary": "#003824",
+            "on-secondary": "#003640",
+            "outline": "#86948a",
+            "surface-bright": "#353944",
+            "tertiary": "#d0bcff",
+            "surface-container": "#1c1f2a",
+            "secondary-fixed-dim": "#4cd7f6",
+            "secondary-container": "#03b5d3",
+            "background": "#0f131d",
+            "on-error": "#690005",
+            "surface-container-high": "#262a35",
+            "error-container": "#93000a",
+            "tertiary-container": "#b090ff",
+            "on-background": "#dfe2f1",
+            "on-error-container": "#ffdad6",
+            "inverse-surface": "#dfe2f1",
+            "on-secondary-fixed": "#001f26",
+            "tertiary-fixed-dim": "#d0bcff",
+            "surface-tint": "#4edea3",
+            "primary-fixed": "#6ffbbe",
+            "on-primary-fixed-variant": "#005236",
+            "outline-variant": "#3c4a42",
+            "on-tertiary-container": "#4600a7",
+            "error": "#ffb4ab"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.25rem",
+            "space-sm": "0.5rem",
+            "margin": "1.25rem",
+            "gutter": "1rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Alexandria", "Cairo", "sans-serif"],
+            "display-lg": ["Alexandria", "Cairo", "sans-serif"],
+            "label-md": ["Alexandria", "Cairo", "sans-serif"],
+            "headline-md": ["Alexandria", "Cairo", "sans-serif"],
+            "body-md": ["Alexandria", "Cairo", "sans-serif"],
+            "currency-stat": ["Alexandria", "Cairo", "sans-serif"],
+            "body-lg": ["Alexandria", "Cairo", "sans-serif"],
+            "label-sm": ["Alexandria", "Cairo", "sans-serif"],
+            "headline-sm": ["Alexandria", "Cairo", "sans-serif"],
+            "display-lg-mobile": ["Alexandria", "Cairo", "sans-serif"],
+            "label-lg": ["Alexandria", "Cairo", "sans-serif"],
+            "body-sm": ["Alexandria", "Cairo", "sans-serif"]
+          },
+          "fontSize": {
+            "headline-lg": ["24px", { "lineHeight": "34px", "letterSpacing": "0", "fontWeight": "600" }],
+            "display-lg": ["36px", { "lineHeight": "48px", "letterSpacing": "0", "fontWeight": "700" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "30px", "letterSpacing": "0", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0", "fontWeight": "400" }],
+            "currency-stat": ["32px", { "lineHeight": "40px", "letterSpacing": "0", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0", "fontWeight": "400" }],
+            "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0", "fontWeight": "600" }],
+            "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "0", "fontWeight": "600" }],
+            "display-lg-mobile": ["28px", { "lineHeight": "38px", "letterSpacing": "0", "fontWeight": "700" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0", "fontWeight": "400" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Alexandria', 'Cairo', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    /* Hide scrollbars for slick mobile carousels */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen antialiased flex flex-col justify-start items-center selection:bg-primary-container selection:text-on-primary-container pb-28">
+<!-- Mobile Viewport Outer Frame Container (Android Baseline 412px target) -->
+<div class="w-full max-w-[440px] min-h-screen bg-background relative flex flex-col overflow-x-hidden shadow-2xl">
+<!-- Top Android System Status Bar -->
+<div class="w-full pt-2 pb-1 px-margin flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm select-none z-50">
+<span class="font-semibold text-on-surface tracking-wide">9:41</span>
+<div class="flex items-center gap-1.5 direction-ltr">
+<span class="material-symbols-outlined text-sm">signal_cellular_4_bar</span>
+<span class="material-symbols-outlined text-sm">wifi</span>
+<span class="material-symbols-outlined text-sm">battery_full</span>
+</div>
+</div>
+<!-- TopAppBar Component (Rendered strictly as specified in Shared Components JSON) -->
+<header class="bg-surface-container-lowest/80 dark:bg-surface-container-lowest/80 backdrop-blur-md text-primary dark:text-primary docked full-width top-0 shadow-sm flex justify-between items-center w-full px-margin py-space-sm rtl z-40 sticky top-0">
+<!-- Leading: Avatar + User Info -->
+<div class="flex items-center gap-space-sm">
+<div class="relative active:scale-95 transition-transform duration-150 cursor-pointer">
+<div class="w-11 h-11 rounded-full overflow-hidden p-0.5 bg-gradient-to-tr from-primary to-secondary">
+<img alt="صورة المستخدم الشخصية" class="w-full h-full object-cover rounded-full bg-surface-container-high" data-alt="A refined portrait photograph of a confident modern Middle Eastern young man wearing sleek dark business casual clothing, set against an ultra dark obsidian background with subtle emerald and cyan rim lighting, capturing an elite fintech product aesthetic with razor sharp details." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvrEh998neeCNI6sWvWJr2jYeEuWPAMMHrtjEkSXfbcQ24-7TCoe_-YlMJ9gUYxZCfcJXYFMcS1mAY8AIMT-zmQ4vpEncVVUVIkIVyJKWkz_psEhSo2hHov9m57iAaoKqn4RncAFzBO-_BZ_5LaEbr2T7qdRchWcHKtzrAbSLoMM5kUKJzGkDanh_-KyQLxdPyH3aLV8s-E4o6ZILn8YM4qrA5lFqU52WtRtsHyCQ7juUWxjVulj_1Xt1SHPhXO5aveqPb6uGXdiA"/>
+</div>
+<span class="absolute bottom-0 left-0 w-3 h-3 rounded-full bg-primary-container ring-2 ring-surface-container-lowest"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<span class="text-headline-md font-headline-md text-primary dark:text-primary font-bold">مصروفي AI</span>
+<span class="material-symbols-outlined text-secondary text-base fill">auto_awesome</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">المساعد المالي الشخصي</span>
+</div>
+</div>
+<!-- Trailing: Notification Bell with Badge -->
+<button aria-label="الإشعارات" class="relative w-10 h-10 rounded-full flex items-center justify-center bg-surface-container-high/50 hover:bg-surface-container-high/50 transition-colors active:scale-95 transition-transform duration-150 text-on-surface">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 left-2 w-2.5 h-2.5 bg-secondary rounded-full ring-2 ring-surface shadow-[0_0_10px_#4cd7f6]"></span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full px-margin pt-space-sm space-y-space-lg">
+<!-- Warm Personal Greeting -->
+<section class="flex flex-col pt-1">
+<div class="flex items-center justify-between">
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile font-bold text-on-surface flex items-center gap-2">
+<span>أهلاً يا جمال</span>
+<span class="inline-block hover:rotate-12 transition-transform cursor-pointer">👋</span>
+</h1>
+<span class="px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            مزامنة سحابية
+          </span>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant mt-0.5">
+          إليك ملخص ميزانيتك ومهامك اليومية الذكية
+        </p>
+</section>
+<!-- AI Smart Quick-Input Floating Bar -->
+<section class="relative">
+<div class="relative rounded-2xl p-[1px] bg-gradient-to-r from-primary-container via-secondary-container to-secondary shadow-[0_8px_32px_-4px_rgba(6,182,212,0.18)]">
+<div class="bg-surface-container-lowest/90 backdrop-blur-2xl rounded-[15px] p-2.5 flex items-center gap-2">
+<!-- AI Magic Spark Icon Button -->
+<div class="w-9 h-9 rounded-xl flex items-center justify-center bg-secondary/15 text-secondary flex-shrink-0">
+<span class="material-symbols-outlined text-xl fill">smart_toy</span>
+</div>
+<!-- Text Prompt Input -->
+<input class="w-full bg-transparent border-0 text-on-surface text-body-sm font-body-sm placeholder:text-on-surface-variant/60 focus:ring-0 focus:outline-none px-1" placeholder="اكتب مصروفك أو مهمتك بالعامية... مثلاً: قهوة 65 جنيه" type="text"/>
+<!-- Voice Mic Action -->
+<button aria-label="تسجيل صوتي" class="w-9 h-9 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high/40 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-xl">mic</span>
+</button>
+<!-- Send Action Button (Glowing Emerald) -->
+<button aria-label="إرسال" class="w-9 h-9 rounded-xl flex items-center justify-center bg-primary text-on-primary font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] active:scale-95 transition-all flex-shrink-0">
+<span class="material-symbols-outlined text-lg rtl:rotate-180">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Quick Prompt Chips -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2.5 pb-0.5">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low border border-outline-variant/30 text-on-surface text-label-md font-label-md whitespace-nowrap active:scale-95 hover:border-primary/50 transition-all">
+<span>⚡</span>
+<span>تسجيل قهوة 65 ج.م</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low border border-outline-variant/30 text-on-surface text-label-md font-label-md whitespace-nowrap active:scale-95 hover:border-secondary/50 transition-all">
+<span>📋</span>
+<span>مهمة جديدة</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-low border border-outline-variant/30 text-on-surface text-label-md font-label-md whitespace-nowrap active:scale-95 hover:border-primary/50 transition-all">
+<span>🎙️</span>
+<span>تسجيل صوتي</span>
+</button>
+</div>
+</section>
+<!-- Glowing Emerald & Electric Cyan Monthly Budget Card -->
+<section class="relative rounded-2xl overflow-hidden bg-surface-container-low/90 backdrop-blur-xl border border-white/10 shadow-[0_12px_40px_-10px_rgba(6,182,212,0.18)]">
+<!-- Ambient Radial Glow Flare in Upper-Right -->
+<div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-primary-container/20 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-16 -left-16 w-44 h-44 rounded-full bg-secondary-container/20 blur-3xl pointer-events-none"></div>
+<div class="relative p-space-md space-y-space-md z-10">
+<!-- Card Header -->
+<div class="flex items-center justify-between border-b border-outline-variant/20 pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">account_balance_wallet</span>
+<h2 class="text-headline-sm font-headline-sm text-on-surface font-semibold">ميزانية شهر مايو</h2>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span>AI نشط</span>
+</div>
+</div>
+<!-- Chart & Balance Metric Grid -->
+<div class="grid grid-cols-12 gap-3 items-center">
+<!-- Left Side (RTL End): Circular SVG Progress Ring (53% spent) -->
+<div class="col-span-5 flex flex-col items-center justify-center relative">
+<div class="relative w-28 h-28 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90 transform" viewbox="0 0 100 100">
+<!-- Background Track -->
+<circle cx="50" cy="50" fill="transparent" r="40" stroke="rgba(49, 53, 64, 0.6)" stroke-width="10"></circle>
+<!-- Progress Emerald/Cyan Gradient Stroke (53% = 251.2 * 0.53 = 133.1 stroke-dashoffset) -->
+<defs>
+<lineargradient id="ringGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#10b981"></stop>
+<stop offset="100%" stop-color="#4cd7f6"></stop>
+</lineargradient>
+</defs>
+<circle class="drop-shadow-[0_0_8px_rgba(78,222,163,0.5)]" cx="50" cy="50" fill="transparent" r="40" stroke="url(#ringGradient)" stroke-dasharray="251.2" stroke-dashoffset="118.06" stroke-linecap="round" stroke-width="10"></circle>
+</svg>
+<!-- Inner Ring Stats -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="text-headline-md font-headline-md font-bold text-on-surface">53%</span>
+<span class="text-[10px] text-on-surface-variant font-label-sm">مستهلك</span>
+</div>
+</div>
+<span class="text-label-sm font-label-sm text-secondary mt-1 font-medium">متبقي 47% آمن</span>
+</div>
+<!-- Center & Right Stats Metrics -->
+<div class="col-span-7 flex flex-col space-y-2">
+<div>
+<span class="text-label-sm font-label-sm text-on-surface-variant block">المتبقي من الميزانية</span>
+<div class="flex items-baseline gap-1">
+<span class="text-currency-stat font-currency-stat text-primary font-bold tracking-tight">3,750</span>
+<span class="text-body-sm font-body-sm text-primary-fixed-dim">ج.م</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-1 border-t border-outline-variant/20">
+<div>
+<span class="text-[11px] text-on-surface-variant font-label-sm block">المصروفات</span>
+<span class="text-body-md font-body-md text-on-surface font-semibold">4,250 ج.م</span>
+</div>
+<div>
+<span class="text-[11px] text-on-surface-variant font-label-sm block">الحد الكلي</span>
+<span class="text-body-md font-body-md text-on-surface font-semibold">8,000 ج.م</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Predictive Insight Note -->
+<div class="p-3 rounded-xl bg-surface-container-high/60 border border-secondary/20 flex items-start gap-2.5">
+<span class="text-base select-none">💡</span>
+<p class="text-body-sm font-body-sm text-on-surface leading-snug">
+              وفرت <span class="text-primary font-bold">12%</span> مقارنة بنفس الوقت الشهر الماضي! معدل استهلاكك مثالي يا جمال.
+            </p>
+</div>
+</div>
+</section>
+<!-- Today's Priority Tasks Section -->
+<section class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-xl">checklist</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-bold">مهام اليوم (2 متبقية)</h3>
+</div>
+<button class="text-label-md font-label-md text-secondary hover:underline flex items-center gap-0.5">
+<span>عرض الكل</span>
+<span class="material-symbols-outlined text-sm rtl:rotate-180">chevron_left</span>
+</button>
+</div>
+<div class="space-y-2.5">
+<!-- Task 1: Priority High -->
+<div class="p-3.5 rounded-xl bg-surface-container/80 border border-outline-variant/30 flex items-start justify-between gap-3 hover:border-outline transition-colors active:scale-[0.99] duration-150">
+<div class="flex items-start gap-3">
+<!-- Custom Checkbox Unchecked -->
+<button aria-label="اكتمال المهمة" class="mt-0.5 w-5 h-5 rounded-full border-2 border-outline-variant hover:border-primary flex items-center justify-center flex-shrink-0 transition-colors">
+<span class="w-2.5 h-2.5 rounded-full bg-transparent hover:bg-primary/40 transition-colors"></span>
+</button>
+<div class="flex flex-col">
+<span class="text-body-md font-body-md font-semibold text-on-surface">تسجيل حلقة يوتيوب جديدة</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-md bg-secondary/15 text-secondary font-label-sm text-label-sm">🎬 إنتاج محتوى</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant flex items-center gap-0.5">
+<span class="material-symbols-outlined text-xs">schedule</span>
+                    03:00 م
+                  </span>
+</div>
+</div>
+</div>
+<!-- Priority High Badge -->
+<span class="px-2 py-1 rounded-full bg-error-container/60 border border-error/30 text-error font-label-sm text-label-sm flex-shrink-0 font-medium">
+              أولوية قصوى
+            </span>
+</div>
+<!-- Task 2: Bill Review -->
+<div class="p-3.5 rounded-xl bg-surface-container/80 border border-outline-variant/30 flex items-start justify-between gap-3 hover:border-outline transition-colors active:scale-[0.99] duration-150">
+<div class="flex items-start gap-3">
+<!-- Custom Checkbox Unchecked -->
+<button aria-label="اكتمال المهمة" class="mt-0.5 w-5 h-5 rounded-full border-2 border-outline-variant hover:border-primary flex items-center justify-center flex-shrink-0 transition-colors">
+<span class="w-2.5 h-2.5 rounded-full bg-transparent hover:bg-primary/40 transition-colors"></span>
+</button>
+<div class="flex flex-col">
+<span class="text-body-md font-body-md font-semibold text-on-surface">مراجعة فاتورة الإنترنت</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 font-label-sm text-label-sm">⚡ فواتير</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">تستحق غداً - 350 ج.م تقريباً</span>
+</div>
+</div>
+</div>
+<span class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant flex-shrink-0">
+<span class="material-symbols-outlined text-base">wifi</span>
+</span>
+</div>
+<!-- Task 3: Completed Styling Example -->
+<div class="p-3.5 rounded-xl bg-surface-container-lowest/50 border border-outline-variant/20 flex items-start justify-between gap-3 opacity-60">
+<div class="flex items-start gap-3">
+<!-- Custom Checkbox Checked -->
+<div class="mt-0.5 w-5 h-5 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0 text-on-primary-container">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+<div class="flex flex-col">
+<span class="text-body-md font-body-md font-medium text-on-surface line-through">تأكيد حجز صيانة السيارة</span>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant font-label-sm text-label-sm">🚗 صيانة</span>
+<span class="text-label-sm font-label-sm text-primary font-medium">تم الإنجاز اليوم</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary text-xl">task_alt</span>
+</div>
+</div>
+</section>
+<!-- Recent AI-Categorized Transactions Section -->
+<section class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl">receipt_long</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-bold">آخر العمليات</h3>
+</div>
+<!-- Filter Tabs -->
+<div class="flex items-center p-0.5 rounded-lg bg-surface-container-low border border-outline-variant/30 text-label-sm font-label-sm">
+<button class="px-2.5 py-1 rounded-md bg-surface-container-high text-primary font-semibold">الكل</button>
+<button class="px-2.5 py-1 rounded-md text-on-surface-variant hover:text-on-surface">مشتريات</button>
+<button class="px-2.5 py-1 rounded-md text-on-surface-variant hover:text-on-surface">فواتير</button>
+</div>
+</div>
+<!-- Transactions Ledger List -->
+<div class="space-y-2.5">
+<!-- Transaction Item 1: Starbucks Coffee -->
+<div class="p-3.5 rounded-xl bg-surface-container/70 border border-white/5 backdrop-blur-md flex items-center justify-between hover:bg-surface-container/90 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/20 flex items-center justify-center text-amber-400 flex-shrink-0">
+<span class="material-symbols-outlined text-2xl">local_cafe</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-body-md font-body-md font-semibold text-on-surface">قهوة ستاربكس</span>
+<span class="text-[10px] text-secondary bg-secondary/10 px-1.5 py-0.2 rounded font-label-sm flex items-center gap-0.5">
+                    ✨ مصنفة تلقائياً
+                  </span>
+</div>
+<div class="flex items-center gap-2 mt-0.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>☕ مقاهي ومطاعم</span>
+<span>•</span>
+<span>منذ ساعتين</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-body-lg font-body-lg font-bold text-on-surface tracking-tight" dir="ltr">−85 ج.م</span>
+<span class="text-[10px] text-on-surface-variant font-label-sm">محفظة البنك</span>
+</div>
+</div>
+<!-- Transaction Item 2: Uber Transport -->
+<div class="p-3.5 rounded-xl bg-surface-container/70 border border-white/5 backdrop-blur-md flex items-center justify-between hover:bg-surface-container/90 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-secondary/15 border border-secondary/20 flex items-center justify-center text-secondary flex-shrink-0">
+<span class="material-symbols-outlined text-2xl">directions_car</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-body-md font-body-md font-semibold text-on-surface">مواصلات أوبر</span>
+<span class="text-[10px] text-secondary bg-secondary/10 px-1.5 py-0.2 rounded font-label-sm flex items-center gap-0.5">
+                    ✨ مصنفة تلقائياً
+                  </span>
+</div>
+<div class="flex items-center gap-2 mt-0.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>🚗 تنقل ومواصلات</span>
+<span>•</span>
+<span>اليوم 09:30 ص</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-body-lg font-body-lg font-bold text-on-surface tracking-tight" dir="ltr">−140 ج.م</span>
+<span class="text-[10px] text-on-surface-variant font-label-sm">بطاقة ميزة</span>
+</div>
+</div>
+<!-- Transaction Item 3: Cloud Subscription -->
+<div class="p-3.5 rounded-xl bg-surface-container/70 border border-white/5 backdrop-blur-md flex items-center justify-between hover:bg-surface-container/90 transition-all">
+<div class="flex items-center gap-3">
+<div class="w-11 h-11 rounded-xl bg-tertiary-container/20 border border-tertiary/20 flex items-center justify-center text-tertiary flex-shrink-0">
+<span class="material-symbols-outlined text-2xl">cloud</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="text-body-md font-body-md font-semibold text-on-surface">اشتراك سحابي</span>
+<span class="text-[10px] text-secondary bg-secondary/10 px-1.5 py-0.2 rounded font-label-sm flex items-center gap-0.5">
+                    ✨ مصنفة تلقائياً
+                  </span>
+</div>
+<div class="flex items-center gap-2 mt-0.5 text-label-sm font-label-sm text-on-surface-variant">
+<span>💻 تقنية واشتراكات</span>
+<span>•</span>
+<span>أمس</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-body-lg font-body-lg font-bold text-on-surface tracking-tight" dir="ltr">−250 ج.م</span>
+<span class="text-[10px] text-on-surface-variant font-label-sm">فيزا ائتمان</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar Component (Executed strictly according to Shared Components JSON) -->
+<!-- Destination count: 5 | Labels: [الرئيسية, التحليلات, إضافة ذكية, المهام, حسابي] -->
+<!-- Active Destination determined autonomously: 'الرئيسية' for this Home Dashboard screen -->
+<nav class="bg-surface-container/90 dark:bg-surface-container/90 backdrop-blur-xl docked full-width bottom-0 shadow-[0_-8px_32px_-4px_rgba(6,182,212,0.12)] fixed bottom-0 left-0 right-0 w-full z-50 flex justify-around items-center px-space-sm pt-space-xs pb-space-md rtl max-w-[440px] mx-auto">
+<!-- Nav Item 1: الرئيسية (ACTIVE) -->
+<button aria-label="الرئيسية" class="flex flex-col items-center justify-center text-primary dark:text-primary font-semibold gap-1 py-1 active:scale-95 transition-all duration-150 hover:text-primary">
+<span class="material-symbols-outlined text-2xl fill">home</span>
+<span class="text-label-sm font-label-sm">الرئيسية</span>
+</button>
+<!-- Nav Item 2: التحليلات (INACTIVE) -->
+<button aria-label="التحليلات" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant font-normal gap-1 py-1 active:scale-95 transition-all duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">insights</span>
+<span class="text-label-sm font-label-sm">التحليلات</span>
+</button>
+<!-- Nav Item 3: إضافة ذكية (Center Highlighted Action) -->
+<button aria-label="إضافة ذكية" class="relative -top-3 flex flex-col items-center justify-center group active:scale-95 transition-transform">
+<div class="w-13 h-13 p-3.5 rounded-full bg-gradient-to-tr from-primary to-secondary text-surface-container-lowest font-bold shadow-[0_0_24px_rgba(16,185,129,0.5)] flex items-center justify-center border-4 border-background">
+<span class="material-symbols-outlined text-2xl text-on-primary-container fill font-extrabold">smart_toy</span>
+</div>
+<span class="text-label-sm font-label-sm text-secondary font-medium mt-0.5">إضافة ذكية</span>
+</button>
+<!-- Nav Item 4: المهام (INACTIVE) -->
+<button aria-label="المهام" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant font-normal gap-1 py-1 active:scale-95 transition-all duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">check_circle</span>
+<span class="text-label-sm font-label-sm">المهام</span>
+</button>
+<!-- Nav Item 5: حسابي (INACTIVE) -->
+<button aria-label="حسابي" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant font-normal gap-1 py-1 active:scale-95 transition-all duration-150 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-2xl">person</span>
+<span class="text-label-sm font-label-sm">حسابي</span>
+</button>
+</nav>
+</div>
+<script src="app.js"></script>
+</body></html>

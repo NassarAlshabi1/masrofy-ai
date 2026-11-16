@@ -1,0 +1,11 @@
+{
+  "name": "masrofy-ai-android",
+  "version": "1.0.0",
+  "description": "مصروفي AI - المساعد المالي والمهام الذكية (مبني بدون Android Studio)",
+  "private": true,
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  }
+}
