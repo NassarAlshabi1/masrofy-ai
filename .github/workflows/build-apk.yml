@@ -12,7 +12,13 @@ jobs:
       - name: Checkout App Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 20 & Java 17
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Setup Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -20,7 +26,9 @@ jobs:
 
       - name: Initialize Capacitor Android Shell
         run: |
-          npm install
+          npm ci
+          npm test
+          npm run build:css
           npx cap add android
           npx cap sync android
 

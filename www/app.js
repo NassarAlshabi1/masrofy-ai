@@ -1,68 +1,70 @@
 (() => {
-  let spent = 4250;
-  const limit = 8000;
-  const input = document.querySelector('input[type="text"]');
-  const sendBtn = document.querySelector('button[aria-label="إرسال"]');
-  const ringCircle = document.querySelectorAll('svg circle')[1];
-  const pctLabel = ringCircle?.closest('.relative')?.querySelector('.text-headline-md');
-  const remLabel = document.querySelector('.text-currency-stat');
-  const spentLabel = Array.from(document.querySelectorAll('span')).find((s) =>
-    s.textContent.includes('4,250')
-  );
-  const txSection = Array.from(document.querySelectorAll('section')).find((s) =>
-    s.textContent.includes('آخر العمليات')
-  );
-  const txList = txSection ? txSection.querySelector('div:last-child') : null;
-
-  function updateBudgetUI() {
-    const rem = Math.max(0, limit - spent);
-    const pct = Math.min(100, Math.round((spent / limit) * 100));
-    if (remLabel) remLabel.textContent = rem.toLocaleString('en-US');
-    if (spentLabel) spentLabel.textContent = spent.toLocaleString('en-US') + ' ج.م';
-    if (pctLabel) pctLabel.textContent = pct + '%';
-    if (ringCircle) {
-      ringCircle.style.transition = 'stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
-      ringCircle.style.strokeDashoffset = String(251.2 * (1 - pct / 100));
+  const key = 'masrofy-example-v1';
+  const $ = selector => document.querySelector(selector);
+  const input = $('input[type="text"]');
+  const status = $('#entry-status');
+  let state = Masrofy.initial();
+  let storageReady = true;
+  try {
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (!Masrofy.valid(parsed)) throw Error('invalid data');
+      state = parsed;
     }
+  } catch (_) { storageReady = false; }
+  function message(text) { status.textContent = text; }
+  function save(next) {
+    if (!storageReady) { message('تعذر قراءة البيانات المحفوظة. لن نستبدلها؛ جرّب إعادة فتح التطبيق أو راجع إعدادات التخزين.'); return false; }
+    try { localStorage.setItem(key, JSON.stringify(next)); state = next; return true; }
+    catch (_) { message('تعذر الحفظ. لم يتم تسجيل التغيير؛ تحقق من المساحة أو إعدادات التخزين.'); return false; }
   }
-
-  function addSmartEntry(raw) {
-    const text = (raw || '').trim();
-    if (!text) return;
-    const numMatch = text.match(/(\d+)/);
-    if (numMatch) {
-      const amount = parseInt(numMatch[1], 10);
-      const title = text.replace(numMatch[0], '').replace(/جنيه|ج\.م/g, '').trim() || 'مصروف يومي';
-      let cat = '🍽️ مقاهي ومطاعم';
-      let icon = 'restaurant';
-      if (/أوبر|مواصلات|بنزين/.test(text)) {
-        cat = '🚗 تنقل ومواصلات';
-        icon = 'directions_car';
-      } else if (/نت|فاتورة|اشتراك/.test(text)) {
-        cat = '💻 تقنية واشتراكات';
-        icon = 'wifi';
-      }
-      spent += amount;
-      updateBudgetUI();
-      if (txList) {
-        const card = document.createElement('div');
-        card.className =
-          'p-3.5 rounded-xl bg-surface-container/90 border border-primary/40 backdrop-blur-md flex items-center justify-between transition-all';
-        card.innerHTML = `<div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center text-primary flex-shrink-0"><span class="material-symbols-outlined text-2xl">${icon}</span></div><div class="flex flex-col"><div class="flex items-center gap-2"><span class="text-body-md font-semibold text-on-surface">${title}</span><span class="text-[10px] text-primary bg-primary/15 px-1.5 py-0.5 rounded">✨ مصنفة بالـ AI الآن</span></div><div class="flex items-center gap-2 mt-0.5 text-label-sm text-on-surface-variant"><span>${cat}</span><span>•</span><span>الآن</span></div></div></div><div class="flex flex-col items-end"><span class="text-body-lg font-bold text-error" dir="ltr">−${amount} ج.م</span><span class="text-[10px] text-on-surface-variant">محفظة ذكية</span></div>`;
-        txList.prepend(card);
-      }
-    }
-    if (input) input.value = '';
-  }
-
-  sendBtn?.addEventListener('click', () => addSmartEntry(input?.value));
-  input?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') addSmartEntry(input.value);
-  });
-  document.querySelectorAll('button[aria-label="اكتمال المهمة"]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      btn.classList.toggle('bg-primary');
-      btn.classList.toggle('border-primary');
+  let filter = 'الكل';
+  const fmt = n => (n / 100).toLocaleString('ar-EG', {maximumFractionDigits:2});
+  function render() {
+    const total = state.expenses.reduce((sum, x) => sum + x.cents, 0);
+    const budget = 800000;
+    const pct = Math.round(total / budget * 100);
+    $('#spent').textContent = fmt(total) + ' ج.م';
+    $('.text-currency-stat').textContent = fmt(budget - total);
+    $('#budget-percent').textContent = pct + '%';
+    $('#budget-ring').style.strokeDashoffset = String(251.2 * (1 - Math.min(100, pct) / 100));
+    $('#remaining-note').textContent = total > budget ? 'تجاوزت الميزانية بـ ' + fmt(total - budget) + ' ج.م' : 'متبقي ' + Math.round((budget-total)/budget*100) + '%';
+    const list = $('#transactions');
+    list.replaceChildren();
+    const items = state.expenses.filter(x => filter === 'الكل' || x.category === filter);
+    if (!items.length) { const p = document.createElement('p'); p.textContent = 'لا توجد عمليات هنا بعد.'; list.append(p); }
+    items.slice().reverse().forEach(x => {
+      const card = document.createElement('div');
+      card.className = 'p-3.5 rounded-xl bg-surface-container border border-outline-variant flex items-center justify-between gap-3';
+      const title = document.createElement('span'); title.textContent = x.title;
+      const amount = document.createElement('span'); amount.textContent = fmt(x.cents) + ' ج.م'; amount.className = 'text-primary whitespace-nowrap';
+      card.append(title, amount); list.append(card);
     });
+    document.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === filter)));
+    document.querySelectorAll('button[aria-label="اكتمال المهمة"]').forEach((b, i) => { b.classList.toggle('bg-primary', state.tasks[i]); b.setAttribute('aria-pressed', String(state.tasks[i])); });
+    $('#task-heading').textContent = 'مهام تجريبية (' + state.tasks.filter(x=>!x).length + ' متبقية)';
+  }
+  function add() {
+    try {
+      const expense = Masrofy.parseExpense(input.value);
+      if (state.expenses.length >= 10000) throw Error('وصلت لحد العمليات في هذا المثال.');
+      if (save({...state, expenses:[...state.expenses, expense]})) { render(); input.value = ''; message('تم حفظ المصروف على هذا الجهاز.'); }
+    } catch (error) { message(error.message); }
+  }
+  $('button[aria-label="إرسال"]').addEventListener('click', add);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) add(); });
+  document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;render();}));
+  document.querySelectorAll('button[aria-label="اكتمال المهمة"]').forEach((b,i)=>b.addEventListener('click',()=>{const tasks=state.tasks.slice();tasks[i]=!tasks[i];if(save({...state,tasks}))render();}));
+  document.querySelectorAll('button').forEach(b => {
+    const label = b.getAttribute('aria-label');
+    if (label === 'إضافة ذكية') b.addEventListener('click', () => input.focus());
+    else if (label === 'الرئيسية') b.addEventListener('click', () => window.scrollTo({top:0}));
+    else if (label === 'المهام') b.addEventListener('click', () => $('#task-heading').scrollIntoView());
+    else if (!b.dataset.filter && !['إرسال','اكتمال المهمة'].includes(label)) {
+      b.disabled = true; b.title = 'واجهة توضيحية غير مفعّلة في هذا المثال'; b.classList.add('opacity-50');
+    }
   });
+  render();
+  message(storageReady ? 'مثال تعليمي: بيانات محلية على هذا الجهاز، بلا سحابة أو نموذج AI. الميزانية التجريبية 8000 جنيه.' : 'تعذر قراءة التخزين. لن يتم استبدال بياناتك الحالية.');
 })();
