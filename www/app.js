@@ -8,9 +8,11 @@
   try {
     const saved = localStorage.getItem(key);
     if (saved) {
-      const parsed = JSON.parse(saved);
+      const raw = JSON.parse(saved);
+      const parsed = Masrofy.migrate(raw);
       if (!Masrofy.valid(parsed)) throw Error('invalid data');
       state = parsed;
+      if (raw.version !== parsed.version) { try { localStorage.setItem(key, JSON.stringify(parsed)); } catch (_) {} }
     }
   } catch (_) { storageReady = false; }
   function message(text) { status.textContent = text; }
@@ -20,16 +22,16 @@
     catch (_) { message('تعذر الحفظ. لم يتم تسجيل التغيير؛ تحقق من المساحة أو إعدادات التخزين.'); return false; }
   }
   let filter = 'الكل';
-  const fmt = n => (n / 100).toLocaleString('ar-EG', {maximumFractionDigits:2});
+  const fmt = n => n.toLocaleString('ar-EG', {maximumFractionDigits: 0});
   function render() {
-    const total = state.expenses.reduce((sum, x) => sum + x.cents, 0);
-    const budget = 800000;
+    const total = state.expenses.reduce((sum, x) => sum + x.amount, 0);
+    const budget = 8000;
     const pct = Math.round(total / budget * 100);
-    $('#spent').textContent = fmt(total) + ' ج.م';
+    $('#spent').textContent = fmt(total);
     $('.text-currency-stat').textContent = fmt(budget - total);
     $('#budget-percent').textContent = pct + '%';
     $('#budget-ring').style.strokeDashoffset = String(251.2 * (1 - Math.min(100, pct) / 100));
-    $('#remaining-note').textContent = total > budget ? 'تجاوزت الميزانية بـ ' + fmt(total - budget) + ' ج.م' : 'متبقي ' + Math.round((budget-total)/budget*100) + '%';
+    $('#remaining-note').textContent = total > budget ? 'تجاوزت الميزانية بـ ' + fmt(total - budget) : 'متبقي ' + Math.round((budget-total)/budget*100) + '%';
     const list = $('#transactions');
     list.replaceChildren();
     const items = state.expenses.filter(x => filter === 'الكل' || x.category === filter);
@@ -38,7 +40,7 @@
       const card = document.createElement('div');
       card.className = 'p-3.5 rounded-xl bg-surface-container border border-outline-variant flex items-center justify-between gap-3';
       const title = document.createElement('span'); title.textContent = x.title;
-      const amount = document.createElement('span'); amount.textContent = fmt(x.cents) + ' ج.م'; amount.className = 'text-primary whitespace-nowrap';
+      const amount = document.createElement('span'); amount.textContent = fmt(x.amount); amount.className = 'text-primary whitespace-nowrap';
       card.append(title, amount); list.append(card);
     });
     document.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === filter)));
@@ -66,5 +68,5 @@
     }
   });
   render();
-  message(storageReady ? 'مثال تعليمي: بيانات محلية على هذا الجهاز، بلا سحابة أو نموذج AI. الميزانية التجريبية 8000 جنيه.' : 'تعذر قراءة التخزين. لن يتم استبدال بياناتك الحالية.');
+  message(storageReady ? 'مثال تعليمي: بيانات محلية على هذا الجهاز، بلا سحابة أو نموذج AI. الميزانية التجريبية 8000.' : 'تعذر قراءة التخزين. لن يتم استبدال بياناتك الحالية.');
 })();

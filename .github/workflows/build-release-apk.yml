@@ -1,0 +1,85 @@
+name: Build Release APK (Signed, Not for Google Play)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ no-fractions-no-currency ]
+
+jobs:
+  build-release-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout App Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Run Tests and Build Web Assets
+        run: |
+          npm ci
+          npm test
+          npm run build:css
+
+      - name: Initialize Capacitor Android Shell
+        run: |
+          npx cap add android
+          npx cap sync android
+
+      - name: Inject Release Signing Config
+        run: |
+          cat >> android/app/build.gradle <<'EOF'
+
+          // CI-injected release signing: self-signed keystore committed in /signing.
+          // This APK is for direct installation (sideload) only, NOT for Google Play.
+          android {
+              signingConfigs {
+                  release {
+                      storeFile file("${rootProject.projectDir}/../signing/masrofy-release.keystore")
+                      storePassword System.getenv('MASROFY_STORE_PASSWORD')
+                      keyAlias 'masrofy'
+                      keyPassword System.getenv('MASROFY_KEY_PASSWORD')
+                  }
+              }
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                      minifyEnabled false
+                      shrinkResources false
+                  }
+              }
+              lint {
+                  checkReleaseBuilds false
+                  abortOnError false
+              }
+          }
+          EOF
+
+      - name: Compile Signed Release APK
+        working-directory: android
+        env:
+          MASROFY_STORE_PASSWORD: masrofyai123456
+          MASROFY_KEY_PASSWORD: masrofyai123456
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
+
+      - name: Verify Signed APK Output
+        run: |
+          ls -lh android/app/build/outputs/apk/release/
+
+      - name: Upload Signed Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Masrofy-AI-Release-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
